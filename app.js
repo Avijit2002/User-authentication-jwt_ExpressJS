@@ -52,7 +52,20 @@ app.post("/login",(req,res,next)=>{
 });
 
 app.get("/user",(req,res,next)=>{
-    const token = req.header.auth;
+    try {
+        const token = req.headers.authorization;
+        console.log(token)
+        const decoded = jwt.verify(token,jwtPass);
+        const username = decoded.username;
+
+        res.json({
+            msg: allUser
+        })
+    } catch (error) {
+        res.json({
+            msg: error.message
+        })
+    }
     
 })
 app.listen(3000)
